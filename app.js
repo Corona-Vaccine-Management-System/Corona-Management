@@ -164,7 +164,7 @@ app.get("/hospitaldata", authController.isLoggedIn, (req, res) => {
   console.log("inside");
   console.log(req.user);
   if (req.user) {
-    let sql1 = "select count(*) as count from vaccinates where hosp = ?;";
+    let sql1 = "select count(*) as count from vaccinates where hosp = ? and date_first is not null;";
     con.start.query(sql1, req.user.H_id, function (err, result) {
       if (err) throw err;
       const count = result[0].count;
