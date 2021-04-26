@@ -560,8 +560,8 @@ app.post("/hosp_logindata", authController.isLoggedIn, (req, res) => {
       }
       console.log(flag);
       if (flag === 1) {
-
-        let sql4 = "Update vaccinates SET Date_first = ?, Date_second = ? where Hosp = ? and P = ?";
+        
+        let sql4 = "call update_vaccinates(?,?,?,?)";
 
         con.start.query(sql4, val, function (err, result) {
           if (err) { // if quant_rem in hospital is 0, error is thrown so redirect to all_records
