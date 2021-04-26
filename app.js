@@ -214,12 +214,10 @@ app.get("/hosp_logindata", authController.isLoggedIn, (req, res) => {
     // let sql1 = "select * from person p join vaccinates v on v.P = p.p_id join hosp_data h on v.hosp = h.h_id where h.h_id = ?;";
     let sql1 = "call filter_patients(4, ?);";
     con.start.query(sql1, req.user.H_id, function (err, result) {
-      var result1 = JSON.stringify(result);
-      var result2 = JSON.parse(result1);
       if (err) throw err;
       res.render("hosp_logindata", {
         user: req.user,
-        patient_details: result2,
+        patient_details: result,
         message: 'All records',
         check: 0
       });
@@ -563,11 +561,12 @@ app.post("/hosp_logindata", authController.isLoggedIn, (req, res) => {
       console.log(flag);
       if (flag === 1) {
 
-        let sql4 = "call update_vaccinates(?,?,?,?)";
+        let sql4 = "Update vaccinates SET Date_first = ?, Date_second = ? where Hosp = ? and P = ?";
 
         con.start.query(sql4, val, function (err, result) {
           if (err) { // if quant_rem in hospital is 0, error is thrown so redirect to all_records
             // let sql1 = "select * from person p join vaccinates v on v.P = p.p_id join hosp_data h on v.hosp = h.h_id where h.h_id = ?;";
+            throw err;
             let sql1 = "call filter_patients(4, ?);";
             con.start.query(sql1, req.user.H_id, function (err, result) {
               if (err) throw err;
